@@ -1,0 +1,21 @@
+.grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    justify-content: center;
+}
+
+.item {
+    width: 150px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.noImage {
+    width: 100%;
+    height: 225px;
+    background: #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
