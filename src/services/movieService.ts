@@ -1,12 +1,18 @@
 import axios from 'axios';
-import type { MoviesResponse } from '../types/movie';
+import type { Movie } from '../types/movie';
 
-const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
+interface MoviesResponse {
+  page: number;
+  results: Movie[];
+  total_pages: number;
+}
 
 const instance = axios.create({
   baseURL: 'https://api.themoviedb.org/3',
+  headers: {
+    Authorization: `Bearer ${import.meta.env.VITE_TMDB_API_KEY}`,
+  },
   params: {
-    api_key: API_KEY, 
     language: 'uk-UA',
   },
 });
@@ -20,3 +26,5 @@ export const searchMovies = async (
   });
   return data;
 };
+
+export type { MoviesResponse };
