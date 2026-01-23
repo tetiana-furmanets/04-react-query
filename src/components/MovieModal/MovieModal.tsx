@@ -12,29 +12,42 @@ const modalRoot = document.getElementById('modal-root')!;
 
 const MovieModal: React.FC<MovieModalProps> = ({ movie, onClose }) => {
   useEffect(() => {
-    const handleKey = (e: KeyboardEvent) => {
+    const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
     };
 
-    document.addEventListener('keydown', handleKey);
+    document.addEventListener('keydown', handleKeyDown);
     document.body.style.overflow = 'hidden';
 
     return () => {
-      document.removeEventListener('keydown', handleKey);
+      document.removeEventListener('keydown', handleKeyDown);
       document.body.style.overflow = '';
     };
   }, [onClose]);
 
   return createPortal(
     <div className={css.backdrop}>
+      <button
+        type="button"
+        className={css.backdropButton}
+        onClick={onClose}
+        aria-label="Close modal"
+      />
       <div className={css.modal}>
-        <button className={css.close} type="button" onClick={onClose}>
+        <button
+          type="button"
+          className={css.close}
+          onClick={onClose}
+          aria-label="Close modal"
+        >
           ×
         </button>
+
         <h2>{movie.title}</h2>
         <p>{movie.overview}</p>
         <p>Release: {movie.release_date}</p>
         <p>Rating: {movie.vote_average}</p>
+
         {movie.backdrop_path && (
           <img
             src={`https://image.tmdb.org/t/p/w780${movie.backdrop_path}`}

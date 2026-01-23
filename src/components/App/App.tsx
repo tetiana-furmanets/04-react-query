@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useQuery, keepPreviousData } from '@tanstack/react-query';
 import ReactPaginate from 'react-paginate';
+import toast from 'react-hot-toast';
 
 import { searchMovies } from '../../services/movieService';
 import type { Movie } from '../../types/movie';
@@ -29,7 +30,7 @@ const App: React.FC = () => {
     placeholderData: keepPreviousData,
   });
 
-  const handleSearch = (value: string) => {
+  const handleSubmit = (value: string) => {
     setQuery(value);
     setPage(1);
   };
@@ -40,13 +41,13 @@ const App: React.FC = () => {
 
   useEffect(() => {
     if (isSuccess && data.results.length === 0) {
-      console.log('No movies found');
+      toast.error('No movies found');
     }
   }, [isSuccess, data]);
 
   return (
     <div className={css.app}>
-      <SearchBar onSearch={handleSearch} />
+      <SearchBar onSubmit={handleSubmit} />
 
       {isLoading && <Loader />}
       {isError && <ErrorMessage message="Something went wrong" />}
@@ -70,7 +71,10 @@ const App: React.FC = () => {
       )}
 
       {selectedMovie && (
-        <MovieModal movie={selectedMovie} onClose={() => setSelectedMovie(null)} />
+        <MovieModal
+          movie={selectedMovie}
+          onClose={() => setSelectedMovie(null)}
+        />
       )}
     </div>
   );
